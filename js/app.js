@@ -385,8 +385,9 @@
     } else if (route.name === "landing") {
       nav = '<a class="btn btn-text" href="#how" data-action="scroll" data-target="how">How it works</a><a class="btn btn-ghost" href="#/home">Your treaties</a><a class="btn btn-primary" href="#/new">Make a Treaty</a>';
     } else if (current) {
-      nav = '<a class="btn btn-primary" href="#/new" aria-current="' + (route.name === "new" ? "page" : "false") + '">New Treaty</a><span class="who">' + esc(current.name) + '</span><button type="button" class="btn btn-text" data-action="logout">Log out</button>';
-    } else {
+      const here = route.name === "new" ? ' aria-current="page"' : "";
+      nav = '<a class="btn btn-primary" href="#/new"' + here + '>New Treaty</a><span class="who">' + esc(current.name) + '</span><button type="button" class="btn btn-text" data-action="logout">Log out</button>';
+    } else if (route.name !== "login") {
       nav = '<a class="btn btn-text" href="#/login" data-next="#/home">Sign in</a>';
     }
     return '<header class="topbar"><div class="topbar-inner ' + width + '"><a class="brand" href="' + home + '">' + mark() + "<span>The Christmas Treaty</span></a><nav class=\"nav\" aria-label=\"Primary\">" + nav + "</nav></div></header>";
@@ -632,6 +633,7 @@
     });
     toast(adjusted ? "Amount updated" : "Treaty accepted");
     render();
+    window.scrollTo(0, 0);
   }
 
   function doDecline(id) {
@@ -648,6 +650,7 @@
     ui.confirmDeclineId = null;
     toast("Treaty declined");
     render();
+    window.scrollTo(0, 0);
   }
 
   function doChoose(id, side, charityId) {
@@ -687,6 +690,7 @@
     });
     toast(completed ? "Treaty complete" : "Donation recorded");
     render();
+    if (completed) window.scrollTo(0, 0);
   }
 
   function rememberDonationLink(el) {
